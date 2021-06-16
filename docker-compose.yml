@@ -1,0 +1,26 @@
+version: '3'
+services:
+
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - auction-net
+    restart: unless-stopped
+
+  trades:
+    image: trades
+    depends_on:
+      - mongodb
+    ports:
+      - "8080:8080"
+    networks:
+      - auction-net
+    environment:
+      APP_MONGODB_URI: mongodb
+
+
+networks:
+  auction-net:
+    driver: "bridge"
