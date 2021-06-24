@@ -1,7 +1,7 @@
 version: '3'
 services:
 
-  mongodb:
+  mongodb-srv:
     image: mongo
     ports:
       - "27017:27017"
@@ -9,16 +9,17 @@ services:
       - auction-net
     restart: unless-stopped
 
-  trades:
-    image: trades
+  trades-srv:
+    image: andromanko/trades
     depends_on:
-      - mongodb
+      - mongodb-srv
     ports:
       - "8080:8080"
     networks:
       - auction-net
     environment:
       APP_MONGODB_URI: mongodb
+      SPRING_DATA_MONGODB_URI: mongodb://localhost:27017
 
 
 networks:
