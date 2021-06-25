@@ -20,9 +20,10 @@ public class UserController {
     IUserService userService;
 
     @GetMapping()
-    public  List<UserDto> getAllUsers()
+    public List<UserDto> getAllUsers()
     {
-        return userService.getUsers();
+        List<UserDto> users = userService.getUsers();
+        return users;
     }
 
     //TODO подумать что делать с ЮзерИнфо. ЧТо вытягиваем из principal?
@@ -32,22 +33,26 @@ public class UserController {
     public UserDto getUserInfo(@PathVariable String id)
     {
         log.info("rest-getUser called");
-        return userService.getUserById(id);//    .getUserByEmail("blange@mail.ru");//principal.getName());
+        UserDto userDto = userService.getUserById(id);
+        System.out.println(userDto);
+        return userDto;//    .getUserByEmail("blange@mail.ru");//principal.getName());
     }
 
-    @PostMapping(value = "/add/{name}")
-    public String addUser(@PathVariable String name) {
+    @PostMapping(value = "/add")
+    public String addUser( @RequestBody  UserDto userDto) {
         log.info("rest-PutAddUser called");
-        UserDto userDto = UserDto.builder().name(name).build();
-        return userService.addUser(userDto);
+       // UserDto userDto = UserDto.builder().name(name).build();
+        userService.addUser(userDto);
+        String txt = userDto.getName();
+        return txt;
     }
 
-    @GetMapping(value = "/add")
-    public String addUser(UserDto userDto) {
+ /*   @GetMapping(value = "/add")
+    public UserDto addUser(UserDto userDto) {
         log.info("rest-GetAddUser called");
 
         return userService.addUser(userDto);
-    }
+    }*/
 
     @PutMapping(value = "/upd")
     public RedirectView updateUser(UserDto user, @RequestParam(value = "file", required = false) MultipartFile file) {

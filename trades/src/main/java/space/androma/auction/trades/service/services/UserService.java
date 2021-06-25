@@ -32,24 +32,26 @@ public class UserService implements IUserService {
         log.info("srv-getUserByEmail called");
         return UserMapper.mapUserDto(repository.findByEmail(email).orElse(null));
     }
+
     @Override
     public String addUser(UserDto userDto) {
-        //TODO validate Email ?
-        User user = UserMapper.mapUser(userDto);
 
-        User userByEmail = repository.findByEmail(userDto.getEmail()).orElse(null);
+        User user = UserMapper.mapUser(userDto);
+//TODO validate Email ?
+        /*User userByEmail = repository.findByEmail(userDto.getEmail()).orElse(null);
         if (userByEmail != null) {
             log.error("Failed to registerUser. The Login or Email already exists");
             // TODO переделать
             return "USER with this e-mail EXIST";
-        }
-        repository.save(user);
+        }*/
+        repository.insert(user);
         return user.getId();
     }
 
     @Override
     public UserDto getUserById(String id) {
-        return null;
+
+        return UserMapper.mapUserDto(repository.findById(id).orElse(null));
     }
 
     @Override

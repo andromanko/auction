@@ -8,12 +8,13 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import space.androma.auction.trades.service.config.ServiceConfiguration;
 
 import java.util.List;
 
-
+@EnableWebMvc
 @Configuration
 @ComponentScan("space.androma.auction.trades")
 @PropertySource("classpath:application.properties")
