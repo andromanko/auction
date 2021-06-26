@@ -11,12 +11,14 @@ public interface ILotService {
 
     LotDto getLotById(String id);
 
-    boolean addLot(LotDto lotDto);
+    boolean givePriceForLot(String lotId, String userId, long proposedPrice);
+
+    String addLot(LotDto lotDto);
 
     void updateLot(String id, LotDto lotDto, MultipartFile file);
 
     void deleteLot(String id);
 
-    List<LotDto> getAll();
+    List<LotDto> getLots();
 
 }

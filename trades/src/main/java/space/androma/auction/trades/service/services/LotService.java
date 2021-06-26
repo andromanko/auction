@@ -5,14 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import space.androma.auction.trades.api.dao.ILotRepo;
+import space.androma.auction.trades.api.dao.IUserRepo;
 import space.androma.auction.trades.api.dto.LotDto;
 import space.androma.auction.trades.api.mappers.LotMapper;
 import space.androma.auction.trades.api.service.ILotService;
 import space.androma.auction.trades.entity.Lot;
+import space.androma.auction.trades.entity.User;
 
 import java.util.List;
-
-import static java.lang.Boolean.FALSE;
 
 @Slf4j
 @Service
@@ -20,27 +20,27 @@ public class LotService implements ILotService {
 
     @Autowired
     ILotRepo lotRepo;
+    @Autowired
+    IUserRepo userRepo;
 
-    public List<LotDto> getAll() {
-        return LotMapper.INSTANCE.mapLotDtos(lotRepo.findAll());
+    public List<LotDto> getLots() {
+        List<Lot> a = lotRepo.findAll();
+        List<LotDto> b = LotMapper.mapLotDtos(a);
+        return b;
     }
-
-
 
     @Override
     public LotDto getLotById(String id) {
         log.info("srv-getLotByID called");
         Lot lot = lotRepo.findById(id).orElse(null);
-        return LotMapper.INSTANCE.mapLotDto(lot);
+        return LotMapper.mapLotDto(lot);
     }
 
     @Override
-    public boolean addLot(LotDto lotDto) {
-        //TODO CHECK if Lot exists?
-        log.info("srv-addLot called");
-        lotRepo.save(LotMapper.INSTANCE.mapLot(lotDto));
-        //TODO
-        return FALSE;
+    public String addLot(LotDto lotDto) {
+        //TODO CHECK if Lot(name) exists?
+        Lot newLot = lotRepo.save(LotMapper.mapLot(lotDto));
+        return newLot.getId();
     }
 
     @Override
@@ -51,6 +51,23 @@ public class LotService implements ILotService {
     @Override
     public void deleteLot(String id) {
 //TODO
+    }
+
+    @Override
+    public boolean givePriceForLot(String lotId, String userId, long proposedPrice) {
+
+        Lot lot = lotRepo.findById(lotId).orElse(null);
+        if (lot != null) {
+            if (lot.getPriceCurrent() < proposedPrice) {
+                User user = userRepo.findById(userId).orElse(null);
+                if (user != null) {
+                    lot.setPriceCurrent(proposedPrice);
+                    lot.setWinner(user);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 

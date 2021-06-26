@@ -44,8 +44,8 @@ public class UserService implements IUserService {
             // TODO переделать
             return "USER with this e-mail EXIST";
         }*/
-        repository.insert(user);
-        return user.getId();
+        User newUser= repository.insert(user);
+        return newUser.getId();
     }
 
     @Override

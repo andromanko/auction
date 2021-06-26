@@ -1,22 +1,45 @@
 package space.androma.auction.trades.api.mappers;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import lombok.experimental.UtilityClass;
 import space.androma.auction.trades.api.dto.LotDto;
 import space.androma.auction.trades.entity.Lot;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Mapper
-public interface LotMapper {
 
-    LotMapper INSTANCE = Mappers.getMapper(LotMapper.class);
+@UtilityClass
+public class LotMapper {
 
-    Lot mapLot(LotDto source);
+    //UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    LotDto mapLotDto(Lot source);
+    public Lot mapLot(LotDto source) {
+        return Lot.builder()
+                .id(source.getId())
+                .name(source.getName())
+                .description(source.getDescription())
+                .priceStart(source.getPriceStart())
+                .priceCurrent(source.getPriceCurrent())
+                .dateTimeEnd(source.getDateTimeEnd())
+                .build();
+    }
 
-    List<Lot> mapLot(List<LotDto> sources);
+    public LotDto mapLotDto(Lot source) {
+        return LotDto.builder()
+                .id(source.getId())
+                .name(source.getName())
+                .description(source.getDescription())
+                .priceStart(source.getPriceStart())
+                .priceCurrent(source.getPriceCurrent())
+                .dateTimeEnd(source.getDateTimeEnd())
+                .build();
+    }
 
-    List<LotDto> mapLotDtos(List<Lot> sources);
+    public List<Lot> mapLots(List<LotDto> source) {
+        return source.stream().map(LotMapper::mapLot).collect(Collectors.toList());
+    }
+
+    public List<LotDto> mapLotDtos(List<Lot> source) {
+        return source.stream().map(LotMapper::mapLotDto).collect(Collectors.toList());
+    }
 }

@@ -22,8 +22,7 @@ public class UserController {
     @GetMapping()
     public List<UserDto> getAllUsers()
     {
-        List<UserDto> users = userService.getUsers();
-        return users;
+        return userService.getUsers();
     }
 
     //TODO подумать что делать с ЮзерИнфо. ЧТо вытягиваем из principal?
@@ -32,19 +31,12 @@ public class UserController {
     @GetMapping(value = "/{id}")
     public UserDto getUserInfo(@PathVariable String id)
     {
-        log.info("rest-getUser called");
-        UserDto userDto = userService.getUserById(id);
-        System.out.println(userDto);
-        return userDto;//    .getUserByEmail("blange@mail.ru");//principal.getName());
+        return userService.getUserById(id);
     }
 
     @PostMapping(value = "/add")
     public String addUser( @RequestBody  UserDto userDto) {
-        log.info("rest-PutAddUser called");
-       // UserDto userDto = UserDto.builder().name(name).build();
-        userService.addUser(userDto);
-        String txt = userDto.getName();
-        return txt;
+        return userService.addUser(userDto);
     }
 
  /*   @GetMapping(value = "/add")

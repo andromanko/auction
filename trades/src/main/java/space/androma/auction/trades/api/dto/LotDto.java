@@ -12,7 +12,7 @@ import java.util.Date;
 @Builder
 public class LotDto {
 
-    private String lotId;
+    private String id;
 
     private String description;
     private String name;

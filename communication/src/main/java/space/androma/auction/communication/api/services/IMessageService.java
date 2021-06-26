@@ -9,11 +9,16 @@ import java.util.List;
 public interface IMessageService {
 
     //создать новую мессагу в переписку по лоту
-    void addMsgForLot(String userId, String lotId, String text);
+    String addMsgForLot(MessageDto messageDto);
 
     //выдать мессаги (все). pageable - TODO
     List<MessageDto> getLotMessages(String lotId);
 
+    List<MessageDto> getAllMessages();
+
+    MessageDto getMsgById(String id);
     //послать e-mail если не прочитана
     boolean sendEmailIfNotReadedForAnHour (Long msgId);
+
+    boolean makeMessageReaded (String id);
 }

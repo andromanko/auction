@@ -18,6 +18,7 @@ public class MessageMapper {
                 .userId(source.getUserId())
                 .lotId(source.getLotId())
                 .text(source.getText())
+                .time(source.getTime())
                 .build();
     }
 
@@ -26,6 +27,7 @@ public class MessageMapper {
                 .id(source.getId())
                 .userId(source.getUserId())
                 .lotId(source.getLotId())
+                .time(source.getTime())
                 .text(source.getText())
                 .build();
     }
