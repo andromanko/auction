@@ -10,13 +10,15 @@ import java.util.List;
 public interface IPaymentService {
 
     //заплатить от Юзера Сумму за Лот
-    boolean payForLot(String userId, String LotId, Long sum);
+    boolean payForLot(PaymentDto paymentDto);
 
-    //выдать инфо по лоту - одна запись //если делать с отменами - то List
+    //выдать инфо по лоту - одна запись //если делать с отменами или частичными оплатами - то List
     PaymentDto getInfoByLot(String LotId);
 
     //выдать инфо по юзеру //пока без pageable
     List<PaymentDto> getPaymentsByUser(String userId);
 
     boolean cancelPayment(Long paymentId);
+
+    List<PaymentDto> getAllPayments();
 }
