@@ -1,9 +1,6 @@
 This is auction web-project by AndRomanko
 Docker, Spring, MongoDB - are my friends now =)
 
-
-This is auction web-project by AndRomanko Docker, Spring, MongoDB - are my friends now =)
-
 TODO many things: ПЛАН...
 
     куча TODO по коду. "На потом"
