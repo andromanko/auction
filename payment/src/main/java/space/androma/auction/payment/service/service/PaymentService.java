@@ -26,18 +26,21 @@ public class PaymentService implements IPaymentService {
             return false;}
         else {
             repo.save(PaymentMapper.mapPayment(paymentDto));
+            log.info("PaymentSaved");
             return true;
         }
     }
 
     @Override
-    public PaymentDto getInfoByLot(String lotId) {
-
+    public PaymentDto getInfoByLot(String lotId)
+    {
+        log.info("PaymentGet for lot "+ lotId);
         return PaymentMapper.mapPaymentDto(repo.findByLotId(lotId));
     }
 
     @Override
     public List<PaymentDto> getPaymentsByUser(String userId) {
+        log.info("PaymentGet for user "+ userId);
         return PaymentMapper.mapPaymentDtos(repo.findByUserId(userId));
     }
 

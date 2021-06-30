@@ -21,4 +21,8 @@ public interface ILotService {
 
     List<LotDto> getLots();
 
+    boolean getUserPermitCommunicate(String lotId, String userId);
+
+    boolean getUserPermitPayForLot(String lotId, String userId);
+
 }

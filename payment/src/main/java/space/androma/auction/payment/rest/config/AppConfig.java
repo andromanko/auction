@@ -14,8 +14,9 @@ import space.androma.auction.payment.service.config.ServiceConfiguration;
 
 import java.util.List;
 
-@EnableWebMvc
+
 @Configuration
+@EnableWebMvc
 @ComponentScan("space.androma.auction.payment")
 @PropertySource("classpath:application.properties")
 @EnableMongoRepositories(basePackages = "space.androma.auction.payment.api.dao")

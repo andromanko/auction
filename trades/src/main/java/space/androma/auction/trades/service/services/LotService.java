@@ -12,6 +12,8 @@ import space.androma.auction.trades.api.service.ILotService;
 import space.androma.auction.trades.entity.Lot;
 import space.androma.auction.trades.entity.User;
 
+import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -27,6 +29,37 @@ public class LotService implements ILotService {
         List<Lot> a = lotRepo.findAll();
         List<LotDto> b = LotMapper.mapLotDtos(a);
         return b;
+    }
+
+    @Override
+    public boolean getUserPermitCommunicate(String lotId, String userId) {
+        Lot lot = lotRepo.findById(lotId).orElse(null);
+        if (lot !=null) {
+            //TODO возможен баг в условии
+            if (LocalDateTime.now().isAfter((ChronoLocalDateTime) lot.getDateTimeEnd())) {
+                if (lot.isPaymentDone()) {
+                    if ((lot.getSeller().getId() == userId) || lot.getWinner().getId() == userId) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean getUserPermitPayForLot(String lotId, String userId) {
+    //TODO вынести дублированый код
+        Lot lot = lotRepo.findById(lotId).orElse(null);
+        if (lot !=null) {
+            //TODO возможен баг в условии
+            if (LocalDateTime.now().isAfter((ChronoLocalDateTime) lot.getDateTimeEnd())) {
+                if (lot.getWinner().getId() == userId) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
