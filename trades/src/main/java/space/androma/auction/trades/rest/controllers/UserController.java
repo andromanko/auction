@@ -8,6 +8,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import space.androma.auction.trades.api.dto.UserDto;
 import space.androma.auction.trades.api.service.IUserService;
 
+import java.security.Principal;
 import java.util.List;
 
 
@@ -20,8 +21,9 @@ public class UserController {
     IUserService userService;
 
     @GetMapping()
-    public List<UserDto> getAllUsers()
+    public List<UserDto> getAllUsers(Principal principal)
     {
+
         return userService.getUsers();
     }
 

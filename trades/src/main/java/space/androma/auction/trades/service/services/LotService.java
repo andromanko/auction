@@ -10,7 +10,7 @@ import space.androma.auction.trades.api.dto.LotDto;
 import space.androma.auction.trades.api.mappers.LotMapper;
 import space.androma.auction.trades.api.service.ILotService;
 import space.androma.auction.trades.entity.Lot;
-import space.androma.auction.trades.entity.User;
+import space.androma.auction.trades.entity.AuUser;
 
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDateTime;
@@ -92,10 +92,10 @@ public class LotService implements ILotService {
         Lot lot = lotRepo.findById(lotId).orElse(null);
         if (lot != null) {
             if (lot.getPriceCurrent() < proposedPrice) {
-                User user = userRepo.findById(userId).orElse(null);
-                if (user != null) {
+                AuUser auUser = userRepo.findById(userId).orElse(null);
+                if (auUser != null) {
                     lot.setPriceCurrent(proposedPrice);
-                    lot.setWinner(user);
+                    lot.setWinner(auUser);
                     return true;
                 }
             }

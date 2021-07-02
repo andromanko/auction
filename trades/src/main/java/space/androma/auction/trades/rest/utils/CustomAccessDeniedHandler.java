@@ -23,7 +23,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication != null) {
-			log.info("User {} attempted to access the protected URL: {}", authentication.getName(),
+			log.info("AuUser {} attempted to access the protected URL: {}", authentication.getName(),
 					request.getRequestURI());
 		}
 		response.sendRedirect(request.getContextPath() + "/403");

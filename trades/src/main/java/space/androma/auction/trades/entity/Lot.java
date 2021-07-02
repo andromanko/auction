@@ -23,8 +23,8 @@ public class Lot {
     private String name;
     private Long priceStart;
     private Long priceCurrent;
-    private User seller;
-    private User winner;
+    private AuUser seller;
+    private AuUser winner;
     private Date dateTimeEnd;
     private boolean paymentDone;
 }

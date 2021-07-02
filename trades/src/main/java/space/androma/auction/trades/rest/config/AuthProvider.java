@@ -19,7 +19,7 @@ public class AuthProvider implements AuthenticationProvider
      String email = authentication.getName();
      String password = (String) authentication.getCredentials();
 
-     User user = repo.findByEmail(email).orElse(null);
+     AuUser user = repo.findByEmail(email).orElse(null);
 
      if(user != null )//&& (user.getUsername().equals(username) || user.getName().equals(username)))
      {

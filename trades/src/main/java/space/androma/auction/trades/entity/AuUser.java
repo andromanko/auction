@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Document(collection = "user")
-public class User {
+public class AuUser {
 
     @Id
     private String id;
