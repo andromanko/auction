@@ -34,17 +34,24 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @PostMapping(value = "/add")
+/*    @PostMapping(value = "/add")
     public String addUser( @RequestBody  UserDto userDto) {
         return userService.addUser(userDto);
+    }*/
+
+    @GetMapping("/signup")
+    public String registration()
+    {
+        return "signup";
     }
 
- /*   @GetMapping(value = "/add")
-    public UserDto addUser(UserDto userDto) {
-        log.info("rest-GetAddUser called");
+    @PostMapping("/signup")
+    public String createUser( @RequestBody  UserDto userDto)
+    {
+        userService.addUser(userDto);
+        return "redirect:/login";
+    }
 
-        return userService.addUser(userDto);
-    }*/
 
     @PutMapping(value = "/upd")
     public RedirectView updateUser(UserDto user, @RequestParam(value = "file", required = false) MultipartFile file) {

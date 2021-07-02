@@ -2,6 +2,7 @@ package space.androma.auction.trades.service.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import space.androma.auction.trades.api.dao.IUserRepo;
@@ -20,6 +21,9 @@ public class UserService implements IUserService {
     @Autowired
     IUserRepo repository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public List<UserDto> getUsers() {
         List<User> users= repository.findAll();
@@ -37,6 +41,7 @@ public class UserService implements IUserService {
     public String addUser(UserDto userDto) {
 
         User user = UserMapper.mapUser(userDto);
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 //TODO validate Email ?
         /*User userByEmail = repository.findByEmail(userDto.getEmail()).orElse(null);
         if (userByEmail != null) {
@@ -46,6 +51,7 @@ public class UserService implements IUserService {
         }*/
         User newUser= repository.insert(user);
         return newUser.getId();
+
     }
 
     @Override
