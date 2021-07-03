@@ -30,6 +30,6 @@ public class MongoUserDetailsService implements UserDetailsService {
 //пользователю предоставляются полномочия/роль
     List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority("user"));
 // метод возвращает объект Spring AuUser с username, password и role аутентифицированного пользователя.
-    return new User(auUser.getName(), auUser.getPassword(), authorities);
+    return new User(auUser.getUsername(), auUser.getPassword(), authorities);
   }
 }

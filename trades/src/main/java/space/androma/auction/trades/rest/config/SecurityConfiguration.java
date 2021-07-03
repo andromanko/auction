@@ -2,7 +2,6 @@ package space.androma.auction.trades.rest.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import space.androma.auction.trades.service.services.MongoUserDetailsService;
 
+//import java.security.AuthProvider;
 
 //потребуется переопределить некоторые встроенные протоколы безопасности Spring
 // для использования нашей базы данных и алгоритма хеширования, поэтому нам
@@ -22,7 +22,7 @@ import space.androma.auction.trades.service.services.MongoUserDetailsService;
 
 //@EnableScheduling
 @Slf4j
-@EnableConfigurationProperties// ???!!!
+//@EnableConfigurationProperties// ???!!!
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -33,46 +33,34 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     MongoUserDetailsService userDetailsService;
 
-/*
-    @Autowired
-    private AuthProvider authProvider;
-    //было authProvider. TODO разобраться -)
-*/
+/*    @Autowired
+    private PasswordEncoder passwordEncoder;*/
 
-//che za nach?   //pre Start 2
+//che za nach?   //pre Start 2 PRE 3
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
+// PRE 0
     @Bean
     PasswordEncoder passwordEncoder()
     { //TODO окьлрииитть
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder;
     }
-
-
-
-/*  Этот должен прррриннннимммммммммаать AuthProvider
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth)
-    {
-        auth.authenticationProvider(authProvider);
-    }
-*/
-
 //Этап аутентификации   //pre Start 1
+    //PRE 2
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable() // Отключает CSRF Protection, поскольку она не нужна для API
                 .authorizeRequests()
-                //.antMatchers("/resources/**", "/", "/login**", "/signup").permitAll()
-                .anyRequest().authenticated()
-                .and().httpBasic()
-                .and().sessionManagement().disable();
+                .antMatchers("/resources/**", "/login**", "/signup").permitAll()
+                .antMatchers("/user","/lot").authenticated()
+                .and().formLogin().loginPage("/login")
+                .defaultSuccessUrl("/lot").failureUrl("/login?error").permitAll()
+                .and().logout().logoutSuccessUrl("/login").permitAll();
 log.info("configure(HttpSecurity http) passed: "+ http);
 /*
                 .and().formLogin().loginPage("/login")   //alter: and().httpBasic(): сообщает Spring, чтобы он ожидал базовую HTTP аутентификацию (обсуждалось выше).
@@ -83,15 +71,17 @@ log.info("configure(HttpSecurity http) passed: "+ http);
         //.and().sessionManagement().disable(): сообщает Spring, что не следует хранить информацию о сеансе для пользователей, поскольку это не нужно для API
 */
     }
-
-//Указание диспетчера аутентификации - config what we use for Auth   //pre Start 0
     @Autowired
-    public void configure(AuthenticationManagerBuilder builder) throws Exception {
+    private AuthProvider authProvider;
+//Указание диспетчера аутентификации - config what we use for Auth   //pre Start 0
+    //PRE 1
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //.inMemoryAuthentication()
                // .withUser("Roma").password("sssss").roles("USER");*/
-
-        builder.userDetailsService(userDetailsService);
-        log.info("configure(AuthenticationManagerBuilder builder) passed: "+ builder);
+        auth.authenticationProvider(authProvider);
+        //builder.userDetailsService(userDetailsService);
+        log.info("configure(AuthenticationManagerBuilder builder) passed: "+ auth);
                 /*.jdbcAuthentication().dataSource(dataSource)
                 .authoritiesByUsernameQuery("SELECT user.login as username, role.role as role FROM user "
                         + "INNER JOIN user_role ON user.id = user_role.user_id "

@@ -23,7 +23,6 @@ public class UserController {
     @GetMapping()
     public List<UserDto> getAllUsers(Principal principal)
     {
-
         return userService.getUsers();
     }
 

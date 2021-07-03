@@ -1,11 +1,25 @@
 package space.androma.auction.trades.rest.config;
 
-/*
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+import space.androma.auction.trades.api.dao.IUserRepo;
+import space.androma.auction.trades.entity.AuUser;
+
+import java.util.Collection;
+
 @Component
 public class AuthProvider implements AuthenticationProvider
 {
-  @Autowired
-  private UserService userService;
+/*  @Autowired
+  private UserService userService;*/
 
     @Autowired
     IUserRepo repo;
@@ -40,4 +54,4 @@ public class AuthProvider implements AuthenticationProvider
   {
      return true;
   }
-}*/
+}

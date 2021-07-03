@@ -13,12 +13,12 @@ public class UserMapper {
     //UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     public AuUser mapUser(UserDto source) {
-        return AuUser.builder().id(source.getId()).name(source.getName()).email(source.getEmail())
+        return AuUser.builder().id(source.getId()).username(source.getName()).email(source.getEmail())
                 .build();
     }
 
     public UserDto mapUserDto(AuUser source) {
-        return UserDto.builder().id(source.getId()).name(source.getName()).email(source.getEmail())
+        return UserDto.builder().id(source.getId()).name(source.getUsername()).email(source.getEmail())
                 .build();
     }
 
