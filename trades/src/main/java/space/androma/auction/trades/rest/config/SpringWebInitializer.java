@@ -7,16 +7,18 @@ public class SpringWebInitializer extends AbstractAnnotationConfigDispatcherServ
 
     @Override
     protected Class[] getServletConfigClasses() {
-        return new Class[]{AppConfig.class};
-    }
+        return null;//new Class[]{MvcConfig.class};//вопрос по конфигу может возникнуть
+    } //было AppConfig
 
     @Override
     protected String[] getServletMappings() {
         return new String[]{"/"};
-    }
+    } //ok
 
     @Override
     protected Class[] getRootConfigClasses() {
-        return new Class[]{};
+        return new Class[] { AppConfig.class };
     }
+    //return new Class[]{};
+   // хрень
 }

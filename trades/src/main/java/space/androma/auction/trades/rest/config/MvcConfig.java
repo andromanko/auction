@@ -3,13 +3,12 @@ package space.androma.auction.trades.rest.config;
 ///для страницы логина //pre=start-4
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Slf4j
-@Configuration
+//@Configuration
 public class MvcConfig implements WebMvcConfigurer
 {
     //PRE 4,5

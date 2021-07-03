@@ -9,13 +9,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 import space.androma.auction.trades.api.dao.IUserRepo;
 import space.androma.auction.trades.entity.AuUser;
 
 import java.util.Collection;
 
-@Component
+//@Component
 public class AuthProvider implements AuthenticationProvider
 {
 /*  @Autowired
