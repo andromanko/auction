@@ -28,4 +28,6 @@ public class Message {
     private LocalDateTime time;
     @Builder.Default
     private boolean readed=FALSE;
+    @Builder.Default
+    private boolean notifySent=FALSE;
 }

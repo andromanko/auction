@@ -9,7 +9,7 @@ import java.util.List;
 public interface IMessageService {
 
     //создать новую мессагу в переписку по лоту
-    String addMsgForLot(MessageDto messageDto);
+    boolean addMsgForLot(MessageDto messageDto);
 
     //выдать мессаги (все). pageable - TODO
     List<MessageDto> getLotMessages(String lotId);

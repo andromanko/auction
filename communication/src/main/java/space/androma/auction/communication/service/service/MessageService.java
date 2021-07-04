@@ -7,6 +7,7 @@ import space.androma.auction.communication.api.dao.IMsgRepo;
 import space.androma.auction.communication.api.dto.MessageDto;
 import space.androma.auction.communication.api.mappers.MessageMapper;
 import space.androma.auction.communication.api.services.IMessageService;
+import space.androma.auction.communication.api.services.ITradesConnectionService;
 import space.androma.auction.communication.entity.Message;
 
 import java.time.LocalDateTime;
@@ -21,14 +22,21 @@ public class MessageService implements IMessageService {
     @Autowired
     IMsgRepo repo;
 
+    @Autowired
+    ITradesConnectionService tradesConnectionService;
+
     //TODO подумать, может не void?
     //неплохо было бы проверять, а есть ли вообще такой ЛОТ? Обращение к другому сервису?
     @Override
-    public String addMsgForLot(MessageDto messageDto) {
-        messageDto.setTime(LocalDateTime.now());
-        return repo.save(MessageMapper.mapMessage(messageDto)).getId();
-    }
+    public boolean addMsgForLot(MessageDto messageDto) {
 
+        if (tradesConnectionService.UserPermitCommunicate(messageDto.getLotId(), messageDto.getUserId())) {
+            messageDto.setTime(LocalDateTime.now());
+            repo.save(MessageMapper.mapMessage(messageDto));
+           return true;
+        }
+        return false;
+    }
     @Override
     public List<MessageDto> getAllMessages() {
         return  MessageMapper.mapMessageDtos(repo.findAll());

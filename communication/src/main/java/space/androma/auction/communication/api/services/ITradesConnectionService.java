@@ -8,4 +8,6 @@ public interface ITradesConnectionService {
     //проверяется завершенность ЛОТа, и участие в нем Юзера (продаван/победитель/админ)
     boolean UserPermitCommunicate(String lotId, String userId);
 
+    //только для теста//
+    boolean ping();
 }

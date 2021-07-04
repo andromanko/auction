@@ -17,29 +17,29 @@ public class MessageController {
     @Autowired
     IMessageService messageService;
 
-    //рпочитать всё
+    //прочитать всё //юзера пока не проверяем
     @GetMapping()
     public List<MessageDto> getAllMessages()
     {
         return messageService.getAllMessages();
     }
 
-//прочитать касаемо ЛОТа
+//прочитать касаемо ЛОТа //юзера пока не проверяем
     @GetMapping(value = "/lot/{lotId}")
     public List<MessageDto> getLotMessages(@PathVariable String lotId)
     {
         return messageService.getLotMessages(lotId);
     }
 
-    //запостить касаемо ЛОТа
+    //запостить касаемо ЛОТа //тут юзера надо проверить
     @PostMapping(value = "/add")
-    public String addMsg( @RequestBody  MessageDto messageDto) {
+    public boolean addMsg( @RequestBody  MessageDto messageDto) {
 
        return messageService.addMsgForLot(messageDto);
     }
 
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{id}") //юзера пока не проверяем
     public MessageDto getMsgInfo(@PathVariable String id)
     {
         return messageService.getMsgById(id);

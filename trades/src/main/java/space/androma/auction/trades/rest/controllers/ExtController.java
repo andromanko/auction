@@ -18,7 +18,7 @@ public class ExtController {
     @Autowired
     ILotService lotService;
 
-    @GetMapping(value = "/lot/{lotId}/{userId}", produces = MediaType.APPLICATION_JSON_VALUE )
+    @GetMapping(value = "/msg/{lotId}/{userId}", produces = MediaType.APPLICATION_JSON_VALUE )
     public boolean userPermitCommunicate(@PathVariable String lotId, @PathVariable String userId)
     {
         return lotService.getUserPermitCommunicate(lotId, userId);
@@ -28,5 +28,10 @@ public class ExtController {
     public boolean userPermitToPayForLot(@PathVariable String lotId, @PathVariable String userId)
     {
         return lotService.getUserPermitPayForLot(lotId, userId);
+    }
+
+    @GetMapping()
+    public boolean ping() {
+        return true;
     }
 }
