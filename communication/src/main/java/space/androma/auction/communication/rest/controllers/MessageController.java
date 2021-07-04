@@ -49,6 +49,5 @@ public class MessageController {
     public boolean setMsgReaded(@PathVariable String id) {
         return messageService.makeMessageReaded(id);
     }
-
-    //TODO PAGEABLE? GET ALL USERS
+    //TODO PAGEABLE? GET ALL messages
 }
