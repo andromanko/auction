@@ -74,11 +74,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().formLogin()
                 .and().logout().logoutSuccessUrl("/login").permitAll()
                 .and().csrf().disable();*/
-        http.authorizeRequests()
-                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-                .antMatchers("/user/**").access("hasRole('ROLE_USER')")
-                .and().formLogin();
-
+        http.authorizeRequests()   //ПОЛУЧАЕТСЯ, ОН РАЗРЕШАЕТ ВСЁ КРОМЕ ТГО ЧТО ПРОПИСАНО ЗДЕСЬ!?!??!?!!
+                .antMatchers("/signup").permitAll()
+        .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/user/**").access("hasRole('ROLE_USER')")    //, "/lot/**"
+                .and().formLogin()//;
+.and().logout().logoutSuccessUrl("/login").permitAll()
+                .and().csrf().disable();
 log.info("configure(HttpSecurity http) passed: "+ http);
 /*
                 .and().formLogin().loginPage("/login")   //alter: and().httpBasic(): сообщает Spring, чтобы он ожидал базовую HTTP аутентификацию (обсуждалось выше).
@@ -102,9 +104,9 @@ log.info("configure(HttpSecurity http) passed: "+ http);
  //       auth.authenticationProvider(authProvider);
         auth.inMemoryAuthentication()
                 .passwordEncoder(passwordEncoder)
-                .withUser("user").password(passwordEncoder.encode("123456")).roles("USER")
-                .and()
-                .withUser("admin").password(passwordEncoder.encode("123456")).roles("USER", "ADMIN");
+                .withUser("user1").password(passwordEncoder.encode("user1")).roles("USER")
+                .and().withUser("user2").password(passwordEncoder.encode("user2")).roles("USER")
+                .and().withUser("admin").password(passwordEncoder.encode("admin")).roles("USER", "ADMIN");
 
         //builder.userDetailsService(userDetailsService);
         log.info("configure(AuthenticationManagerBuilder builder) passed: "+ auth);
@@ -116,7 +118,7 @@ log.info("configure(HttpSecurity http) passed: "+ http);
 
 /*        List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority(“user”));
 
-        return new AuUser(user.getUsername(), user.getPassword(), authorities);*/
+        return new User(user.getUsername(), user.getPassword(), authorities);*/
 
     }
 

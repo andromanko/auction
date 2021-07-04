@@ -10,7 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import space.androma.auction.trades.api.dao.IUserRepo;
-import space.androma.auction.trades.entity.AuUser;
+import space.androma.auction.trades.entity.User;
 
 import java.util.Collection;
 
@@ -32,7 +32,7 @@ public class AuthProvider implements AuthenticationProvider
      String email = authentication.getName();
      String password = (String) authentication.getCredentials();
 
-     AuUser user = repo.findByEmail(email).orElse(null);
+     User user = repo.findByEmail(email).orElse(null);
 
      if(user != null )//&& (user.getUsername().equals(username) || user.getName().equals(username)))
      {

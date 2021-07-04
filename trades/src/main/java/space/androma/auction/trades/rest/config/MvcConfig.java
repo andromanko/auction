@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Slf4j
-//@Configuration
+//@Configuration СЮДА НЕ ЗАГЛЯДЫВАЕТ!!! НАХ НЕ НУЖНЫЙ КЛАСС!!!
 public class MvcConfig implements WebMvcConfigurer
 {
     //PRE 4,5

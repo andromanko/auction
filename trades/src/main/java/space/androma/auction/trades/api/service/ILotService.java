@@ -13,7 +13,7 @@ public interface ILotService {
 
     boolean givePriceForLot(String lotId, String userId, long proposedPrice);
 
-    String addLot(LotDto lotDto);
+    boolean addLot(LotDto lotDto, String username);//TODO username заменить на e-mail
 
     void updateLot(String id, LotDto lotDto, MultipartFile file);
 

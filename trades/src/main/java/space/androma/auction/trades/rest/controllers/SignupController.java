@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import space.androma.auction.trades.api.dao.IUserRepo;
 import space.androma.auction.trades.api.dto.UserDto;
-import space.androma.auction.trades.entity.AuUser;
+import space.androma.auction.trades.entity.User;
 import space.androma.auction.trades.entity.Role;
 
 import java.util.Collections;
@@ -22,21 +22,23 @@ public class SignupController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/registration")
+    @GetMapping("/signup")
     public String registration()
     {
-        return "registration";
+        return "signup";
     }
 
-    @PostMapping("/registration")
+    @PostMapping("/signup")
     public String addUser(@RequestBody UserDto userDto)
     {
-        AuUser user = new AuUser();
+    //TODO выкинуть в userService!!!
+        User user = new User();
         user.setUsername(userDto.getName());
         user.setSurname(userDto.getSurname());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setBalance(userDto.getBalance());
         //user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
+        user.setRoles(Collections.singleton(Role.USER));  //TODO захардкожена роль
 
         userRepo.save(user);
 

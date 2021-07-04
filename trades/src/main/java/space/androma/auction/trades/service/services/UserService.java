@@ -9,7 +9,7 @@ import space.androma.auction.trades.api.dao.IUserRepo;
 import space.androma.auction.trades.api.dto.UserDto;
 import space.androma.auction.trades.api.mappers.UserMapper;
 import space.androma.auction.trades.api.service.IUserService;
-import space.androma.auction.trades.entity.AuUser;
+import space.androma.auction.trades.entity.User;
 
 import java.util.List;
 
@@ -26,8 +26,8 @@ public class UserService implements IUserService {
 
     @Override
     public List<UserDto> getUsers() {
-        List<AuUser> auUsers = repository.findAll();
-        List<UserDto> userDtos = UserMapper.mapUserDtos(auUsers);
+        List<User> users = repository.findAll();
+        List<UserDto> userDtos = UserMapper.mapUserDtos(users);
         return userDtos;
     }
 
@@ -40,17 +40,17 @@ public class UserService implements IUserService {
     @Override
     public String addUser(UserDto userDto) {
 
-        AuUser auUser = UserMapper.mapUser(userDto);
-        auUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        User user = UserMapper.mapUser(userDto);
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 //TODO validate Email ?
-        /*AuUser userByEmail = repository.findByEmail(userDto.getEmail()).orElse(null);
+        /*User userByEmail = repository.findByEmail(userDto.getEmail()).orElse(null);
         if (userByEmail != null) {
             log.error("Failed to registerUser. The Login or Email already exists");
             // TODO переделать
             return "USER with this e-mail EXIST";
         }*/
-        AuUser newAuUser = repository.insert(auUser);
-        return newAuUser.getId();
+        User newUser = repository.insert(user);
+        return newUser.getId();
 
     }
 

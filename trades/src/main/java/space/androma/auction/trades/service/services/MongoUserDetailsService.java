@@ -2,13 +2,12 @@ package space.androma.auction.trades.service.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import space.androma.auction.trades.api.dao.IUserRepo;
-import space.androma.auction.trades.entity.AuUser;
+import space.androma.auction.trades.entity.User;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,15 +20,15 @@ public class MongoUserDetailsService implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-    AuUser auUser = repository.findByName(username).orElse(null);
+    User user = repository.findByUsername(username).orElse(null);
 
-    if(auUser == null) {
-      throw new UsernameNotFoundException("AuUser  not found" ) ;
+    if(user == null) {
+      throw new UsernameNotFoundException("User  not found" ) ;
     }
-    //TODO можно сделать через userDtoDop=) тогда не нужен будет auUser, будет обычный User наш
+    //TODO можно сделать через userDtoDop=) тогда не нужен будет user, будет обычный User наш
 //пользователю предоставляются полномочия/роль
     List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority("user"));
-// метод возвращает объект Spring AuUser с username, password и role аутентифицированного пользователя.
-    return new User(auUser.getUsername(), auUser.getPassword(), authorities);
+// метод возвращает объект Spring User с username, password и role аутентифицированного пользователя.
+    return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
   }
 }

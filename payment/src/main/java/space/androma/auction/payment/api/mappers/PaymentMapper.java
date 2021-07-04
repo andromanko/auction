@@ -11,14 +11,14 @@ import java.util.stream.Collectors;
 public class PaymentMapper {
 
     //UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
-
+//TODO тут тернарник. Возможен null. подумать что делать с такой практикой
     public Payment mapPayment (PaymentDto source) {
-        return Payment.builder()
+        return source!=null ? Payment.builder()
                 .id(source.getId())
                 .userId(source.getUserId())
                 .lotId(source.getLotId())
                 .sum(source.getSum())
-                .build();
+                .build() : null;
     }
 
     public PaymentDto mapPaymentDto(Payment source) {

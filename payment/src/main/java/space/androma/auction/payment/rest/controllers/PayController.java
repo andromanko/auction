@@ -46,9 +46,11 @@ public class PayController {
     @PostMapping()
     public boolean payForLot( @RequestBody  PaymentDto paymentDto)
     {
-       return paymentService.payForLot(paymentDto);
+
+        return paymentService.payForLot(paymentDto);
     }
     //тлллллььььььькооооооооо дяя ттттттесссссстааааааааа//
+
     @GetMapping(value = "/questToTrade/{lotId}/{userId}")
     public boolean questionToTrades(@PathVariable String lotId,@PathVariable String userId) {
         return tradesConnectionService.UserPermitPay(lotId, userId);

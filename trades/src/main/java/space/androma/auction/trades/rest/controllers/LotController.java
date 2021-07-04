@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 import space.androma.auction.trades.api.dto.LotDto;
+import space.androma.auction.trades.api.dto.PriceProposeDto;
 import space.androma.auction.trades.api.service.ILotService;
 
 import java.security.Principal;
@@ -32,15 +33,15 @@ public class LotController {
     }
 
     @PostMapping(value = "/give")
-    public boolean givePriceForLot(@RequestBody String lotId, long proposedPrice,String userId) {
-
-        return lotService.givePriceForLot(lotId,userId,proposedPrice);
+    public boolean givePriceForLot(@RequestBody PriceProposeDto priceProposeDto) {
+        //TODO userId = Principal!!!
+        return lotService.givePriceForLot(priceProposeDto.getLotId(),priceProposeDto.getUserId(),priceProposeDto.getAmount());
     }
 
     @PostMapping(value = "/add")
-    public String addLot( @RequestBody LotDto lot) {
+    public boolean addLot( @RequestBody LotDto lot, Principal principal) {
 
-        return lotService.addLot(lot);
+        return lotService.addLot(lot,"user1");//TODO  principal.getName());
     }
 
     @PostMapping(value = "/upd")

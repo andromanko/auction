@@ -2,17 +2,17 @@ package space.androma.auction.trades.api.dao;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
-import space.androma.auction.trades.entity.AuUser;
+import space.androma.auction.trades.entity.User;
 
 import java.util.Optional;
 
-public interface IUserRepo extends MongoRepository<AuUser, String> {
+public interface IUserRepo extends MongoRepository<User, String> {
 
     //пока не надо
     @Query("{'email' : ?0}")
-    Optional<AuUser> findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
-    @Query("{'name' : ?0}")
-    Optional<AuUser> findByName(String name);
+    @Query("{'username' : ?0}")
+    Optional<User> findByUsername(String username);
 
 }

@@ -23,7 +23,7 @@ import java.util.Set;
 @AllArgsConstructor
 @SuperBuilder
 @Document(collection = "user")
-public class AuUser implements UserDetails {
+public class User implements UserDetails {
 
     @Id
     private String id;

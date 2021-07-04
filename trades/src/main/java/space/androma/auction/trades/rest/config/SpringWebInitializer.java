@@ -2,7 +2,7 @@ package space.androma.auction.trades.rest.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-
+//инициализируется при старте
 public class SpringWebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override

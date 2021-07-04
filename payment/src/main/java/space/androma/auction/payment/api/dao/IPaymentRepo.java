@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface IPaymentRepo extends MongoRepository<Payment, String> {
 
     @Query("{'lotId' : ?0}")
-    Payment findByLotId(String lotId);
+    Optional<Payment> findByLotId(String lotId);
 
     //TODO ТЕСТИТЬ! ФИКСИТЬ! @query не уверен
     @Query("{'userId' : ?0}")

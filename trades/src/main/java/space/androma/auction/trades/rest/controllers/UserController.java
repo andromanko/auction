@@ -40,7 +40,7 @@ public class UserController {
         return userService.addUser(userDto);
     }*/
 
-    @GetMapping("/signup")
+/*    @GetMapping("/signup")
     public String registration()
     {
         return "signup";
@@ -51,7 +51,7 @@ public class UserController {
     {
         userService.addUser(userDto);
         return "redirect:/login";
-    }
+    }*/
 
 
     @PutMapping(value = "/upd")

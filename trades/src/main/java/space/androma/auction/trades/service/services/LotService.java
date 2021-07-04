@@ -10,10 +10,9 @@ import space.androma.auction.trades.api.dto.LotDto;
 import space.androma.auction.trades.api.mappers.LotMapper;
 import space.androma.auction.trades.api.service.ILotService;
 import space.androma.auction.trades.entity.Lot;
-import space.androma.auction.trades.entity.AuUser;
+import space.androma.auction.trades.entity.User;
 
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -26,9 +25,7 @@ public class LotService implements ILotService {
     IUserRepo userRepo;
 
     public List<LotDto> getLots() {
-        List<Lot> a = lotRepo.findAll();
-        List<LotDto> b = LotMapper.mapLotDtos(a);
-        return b;
+        return LotMapper.mapLotDtos(lotRepo.findAll());
     }
 
     @Override
@@ -36,9 +33,9 @@ public class LotService implements ILotService {
         Lot lot = lotRepo.findById(lotId).orElse(null);
         if (lot !=null) {
             //TODO возможен баг в условии
-            if (LocalDateTime.now().isAfter((ChronoLocalDateTime) lot.getDateTimeEnd())) {
+            if (LocalDateTime.now().isAfter( lot.getDateTimeEnd())) {
                 if (lot.isPaymentDone()) {
-                    if ((lot.getSeller().getId() == userId) || lot.getWinner().getId() == userId) {
+                    if ((lot.getSellerId().equals(userId)) || lot.getWinnerId().equals(userId)) {
                         return true;
                     }
                 }
@@ -53,8 +50,8 @@ public class LotService implements ILotService {
         Lot lot = lotRepo.findById(lotId).orElse(null);
         if (lot !=null) {
             //TODO возможен баг в условии
-            if (LocalDateTime.now().isAfter((ChronoLocalDateTime) lot.getDateTimeEnd())) {
-                if (lot.getWinner().getId() == userId) {
+            if (LocalDateTime.now().isAfter( lot.getDateTimeEnd())) {
+                if (lot.getWinnerId().equals(userId)) {
                     return true;
                 }
             }
@@ -64,16 +61,28 @@ public class LotService implements ILotService {
 
     @Override
     public LotDto getLotById(String id) {
-        log.info("srv-getLotByID called");
         Lot lot = lotRepo.findById(id).orElse(null);
         return LotMapper.mapLotDto(lot);
     }
 
     @Override
-    public String addLot(LotDto lotDto) {
+    public boolean addLot(LotDto lotDto,String username) {
         //TODO CHECK if Lot(name) exists?
-        Lot newLot = lotRepo.save(LotMapper.mapLot(lotDto));
-        return newLot.getId();
+        Lot newLot = LotMapper.mapLot(lotDto);
+        User user = userRepo.findByUsername(username).orElse(null);
+        if (user != null) {
+            newLot.setSellerId(user.getId());
+            //если дата не задана - то 1 месяц на продажу =)
+            if (lotDto.getDateTimeEnd() == null) {
+                newLot.setDateTimeEnd(LocalDateTime.now().plusMonths(1));
+            }
+            if (lotDto.getPriceCurrent() == null) {
+                newLot.setPriceCurrent(0L);
+            }
+            lotRepo.save(newLot);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -90,16 +99,17 @@ public class LotService implements ILotService {
     public boolean givePriceForLot(String lotId, String userId, long proposedPrice) {
 
         Lot lot = lotRepo.findById(lotId).orElse(null);
-        if (lot != null) {
-            if (lot.getPriceCurrent() < proposedPrice) {
-                AuUser auUser = userRepo.findById(userId).orElse(null);
-                if (auUser != null) {
-                    lot.setPriceCurrent(proposedPrice);
-                    lot.setWinner(auUser);
-                    return true;
+        User user = userRepo.findById(userId).orElse(null);
+        if ((lot != null)&(user != null))  {
+            if (lot.getDateTimeEnd().isAfter(LocalDateTime.now())) {  //если срок еще не истек
+                if (lot.getPriceCurrent() < proposedPrice) {
+                        lot.setPriceCurrent(proposedPrice);
+                        lot.setWinnerId(user.getId());
+                        lotRepo.save(lot);
+                        return true;
+                    }
                 }
             }
-        }
         return false;
     }
 

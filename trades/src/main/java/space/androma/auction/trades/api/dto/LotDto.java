@@ -2,8 +2,7 @@ package space.androma.auction.trades.api.dto;
 
 import lombok.*;
 
-
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -18,8 +17,8 @@ public class LotDto {
     private String name;
     private Long priceStart;
     private Long priceCurrent;
-    private UserDto winner;
-    private Date dateTimeEnd;
+    private String winner;
+    private LocalDateTime dateTimeEnd;
     private boolean paymentDone;
 
 }

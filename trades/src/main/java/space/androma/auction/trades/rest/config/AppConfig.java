@@ -25,17 +25,17 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Value("${spring.data.mongodb.uri}")
     private String mongoDBUri;
-
+//потом заглядывает сюда //конфиг
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.add(new MappingJackson2HttpMessageConverter());
     }
-
+//заглядывает сюда //стртует бины
     @Bean
     public MongoClient mongoClient() {
         return MongoClients.create("mongodb://localhost:27017");
     }
-
+    //заглядывает сюда //стртует бины
     @Bean
     public MongoTemplate mongoTemplate() {
         return new MongoTemplate(mongoClient(), "r001");
