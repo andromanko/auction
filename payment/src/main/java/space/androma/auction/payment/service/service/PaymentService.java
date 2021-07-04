@@ -24,17 +24,18 @@ public class PaymentService implements IPaymentService {
 
     @Override
     public boolean payForLot(PaymentDto paymentDto) {
-        //запрос в базу на lotId, если не нашел - занести в базу
+        //делаем платеж. Если вернули true - значит все ок,
+        // для теста - на "той" стороне сразу выставляем "платеж прошел". По факту, конечно так делать не будем.
         if (tradesConnectionService.UserPermitPay(paymentDto.getLotId(), paymentDto.getUserId())) {
 
-            if (repo.findByLotId(paymentDto.getLotId()) != null) {
+/*            if (repo.findByLotId(paymentDto.getLotId()) != null) {
                 //TODO пока не учитываем cancelled Payment
                 return false;
-            } else {
+            } else {*/
                 repo.save(PaymentMapper.mapPayment(paymentDto));
                 log.info("PaymentSaved");
                 return true;
-            }
+   //         }
         }
         return false;
     }

@@ -43,7 +43,7 @@ public class LotService implements ILotService {
         }
         return false;
     }
-
+//+
     @Override
     public boolean getUserPermitPayForLot(String lotId, String userId) {
     //TODO вынести дублированый код
@@ -52,6 +52,10 @@ public class LotService implements ILotService {
             //TODO возможен баг в условии
             if (LocalDateTime.now().isAfter( lot.getDateTimeEnd())) {
                 if (lot.getWinnerId().equals(userId)) {
+                    //TODO здесь может быть еще проверка суммы
+                    //но в нашей симуляции делаем якобы все ок
+                    lot.setPaymentDone(true);
+                    lotRepo.save(lot);
                     return true;
                 }
             }
