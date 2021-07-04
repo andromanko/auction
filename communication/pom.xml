@@ -138,16 +138,27 @@
             <version>${slf4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-commons</artifactId>
-            <version>2.0.0.RELEASE</version>
-            <scope>compile</scope>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.7</version>
         </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.integration/spring-integration-mail -->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-            <version>3.0.1</version>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-mail</artifactId>
+            <version>5.5.1</version>
         </dependency>
+
+<!--это надо, здесь javax.mail.internet.MimeMessage;-->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>1.6.5</version>
+        </dependency>
+
+
     </dependencies>
 
 </project>

@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @SuperBuilder
 @Document(collection = "lot_permit")
-public class MsgPermit {
+public class MsgDetails {
     @NotNull
     @MongoId
     private String lotId;

@@ -1,7 +1,7 @@
 package space.androma.auction.communication.service.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+//import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import space.androma.auction.communication.api.services.ITradesConnectionService;
@@ -13,7 +13,7 @@ public class TradesConnectionService implements ITradesConnectionService {
     public static final String TRD_SERVER_URL = "http://127.0.0.1:8080/ext";
 
     @Autowired
-    @LoadBalanced
+    //@LoadBalanced
     protected RestTemplate restTemplate;
 
     @Override
