@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import space.androma.auction.trades.rest.utils.CustomUserDetailsService;
 
 //import java.security.AuthProvider;
 
@@ -23,18 +24,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity(debug = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-/*
-    @Autowired
-    private AccessDeniedHandler accessDeniedHandler;
-
-    @Autowired
-    MongoUserDetailsService userDetailsService;
-*/
+/*    @Autowired
+    AuthProvider authProvider;*/
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-//che za nach?   //pre Start 2 PRE 3
+    @Autowired
+    public CustomUserDetailsService customUserDetailsService;
+
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -43,12 +41,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 // PRE 0
     @Bean
     PasswordEncoder passwordEncoder()
-    { //TODO окьлрииитть
+    {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder;
     }
-//Этап аутентификации   //pre Start 1
-    //PRE 2
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
        /* http
@@ -76,12 +73,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable();*/
         http.authorizeRequests()   //ПОЛУЧАЕТСЯ, ОН РАЗРЕШАЕТ ВСЁ КРОМЕ ТГО ЧТО ПРОПИСАНО ЗДЕСЬ!?!??!?!!
                 .antMatchers("/signup").permitAll()
-        .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-                .antMatchers("/user/**").access("hasRole('ROLE_USER')")    //, "/lot/**"
+                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/user/**", "/lot/**").authenticated()//   access("hasRole('ROLE_USER')")    //, "/lot/**"
                 .and().formLogin()//;
-.and().logout().logoutSuccessUrl("/login").permitAll()
+                .and().logout().logoutSuccessUrl("/login").permitAll()
                 .and().csrf().disable();
-log.info("configure(HttpSecurity http) passed: "+ http);
+        log.info("configure(HttpSecurity http) passed: " + http);
 /*
                 .and().formLogin().loginPage("/login")   //alter: and().httpBasic(): сообщает Spring, чтобы он ожидал базовую HTTP аутентификацию (обсуждалось выше).
                 .permitAll().and().logout().invalidateHttpSession(true)
@@ -90,24 +87,24 @@ log.info("configure(HttpSecurity http) passed: "+ http);
                 .and().logout().logoutSuccessUrl("/").permitAll().and().exceptionHandling().accessDeniedHandler(accessDeniedHandler);
         //.and().sessionManagement().disable(): сообщает Spring, что не следует хранить информацию о сеансе для пользователей, поскольку это не нужно для API
 */
+
     }
-/*
-    @Autowired
-    private AuthProvider authProvider;*/
 
 //Указание диспетчера аутентификации - config what we use for Auth   //pre Start 0
     //PRE 1
-    @Override
+    @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //.inMemoryAuthentication()
-               // .withUser("Roma").password("sssss").roles("USER");*/
- //       auth.authenticationProvider(authProvider);
+
+            auth.userDetailsService(customUserDetailsService);
+
+
+      /*// так оно работает:
         auth.inMemoryAuthentication()
                 .passwordEncoder(passwordEncoder)
                 .withUser("user1").password(passwordEncoder.encode("user1")).roles("USER")
                 .and().withUser("user2").password(passwordEncoder.encode("user2")).roles("USER")
                 .and().withUser("admin").password(passwordEncoder.encode("admin")).roles("USER", "ADMIN");
-
+*/
         //builder.userDetailsService(userDetailsService);
         log.info("configure(AuthenticationManagerBuilder builder) passed: "+ auth);
                 /*.jdbcAuthentication().dataSource(dataSource)
