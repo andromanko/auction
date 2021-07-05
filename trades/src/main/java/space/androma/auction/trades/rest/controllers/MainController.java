@@ -20,6 +20,6 @@ public class MainController {
         log.info("TradesController working/ 8080/ mapping! ");
         //UserDto userDto = UserDto.builder().name("name3").email("blange@mail.ru").build();
         //userService.addUser(userDto);
-        return "Main Page"; //userService.getUserByEmail("blange@mail.ru");//principal.getName());
+        return "Main Page TRADES"; //userService.getUserByEmail("blange@mail.ru");//principal.getName());
     }
 }

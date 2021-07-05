@@ -1,14 +1,6 @@
 version: '3'
 services:
 
-  eureka-srv:
-    image: springcloud/eureka
-    ports:
-      - "8761:8761"
-    networks:
-      - auction-net
-    restart: unless-stopped
-
   mongodb-srv:
     image: mongo
     ports:
@@ -17,13 +9,12 @@ services:
       - auction-net
     restart: unless-stopped
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - ./db-data:/data/db
 
   trades-service:
     image: andromanko/trades
     depends_on:
       - mongodb-srv
-      - eureka-srv
     ports:
       - "8080:8080"
     networks:
@@ -32,7 +23,7 @@ services:
       APP_MONGODB_URI: mongodb
       SPRING_DATA_MONGODB_URI: mongodb://localhost:27017
     volumes:
-      - ".:/home/app:rw"
+      - ./trades:/home/app/
 
 
   communication-service:
@@ -40,7 +31,6 @@ services:
     depends_on:
       - mongodb-srv
       - trades-service
-      - eureka-srv
     ports:
       - "8082:8082"
     networks:
@@ -49,14 +39,14 @@ services:
       APP_MONGODB_URI: mongodb
       SPRING_DATA_MONGODB_URI: mongodb://localhost:27017
     volumes:
-      - ".:/home/app:rw"
+      - ./communication:/home/app/
+
 
   payment-service:
         image: andromanko/payment
         depends_on:
           - mongodb-srv
           - trades-service
-          - eureka-srv
         ports:
           - "8081:8081"
         networks:
@@ -65,7 +55,8 @@ services:
           APP_MONGODB_URI: mongodb
           SPRING_DATA_MONGODB_URI: mongodb://localhost:27017
         volumes:
-          - ".:/home/app:rw"
+          - ./payment:/home/app/
+
 networks:
   auction-net:
     driver: "bridge"

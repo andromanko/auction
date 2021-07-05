@@ -94,8 +94,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     //PRE 1
     @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-            auth.userDetailsService(customUserDetailsService);
+        auth//.parentAuthenticationManager(authenticationManager)
+                .userDetailsService(customUserDetailsService);
+            
 
 
       /*// так оно работает:

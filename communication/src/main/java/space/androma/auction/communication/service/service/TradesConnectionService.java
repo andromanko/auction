@@ -10,7 +10,7 @@ import space.androma.auction.communication.api.services.ITradesConnectionService
 public class TradesConnectionService implements ITradesConnectionService {
 
     //TODO - разробраться откуда будет это имя? Из контейнеров?
-    public static final String TRD_SERVER_URL = "http://127.0.0.1:8080/ext";
+    public static final String TRD_SERVER_URL = "http://trades-service:8080/ext";
 
     @Autowired
     //@LoadBalanced

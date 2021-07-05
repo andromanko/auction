@@ -131,5 +131,21 @@
             <version>5.0.4.RELEASE</version>
         </dependency>
 
+
+        <!-- https://mvnrepository.com/artifact/com.google.auth/google-auth-library-oauth2-http -->
+        <dependency>
+            <groupId>com.google.auth</groupId>
+            <artifactId>google-auth-library-oauth2-http</artifactId>
+            <version>0.26.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2 -->
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>2.2.1.RELEASE</version>
+        </dependency>
+
+
     </dependencies>
 </project>
