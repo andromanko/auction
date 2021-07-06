@@ -3,6 +3,8 @@ package space.androma.auction.trades.service.services;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import space.androma.auction.trades.api.dao.IUserRepo;
@@ -11,6 +13,7 @@ import space.androma.auction.trades.api.mappers.UserMapper;
 import space.androma.auction.trades.api.service.IUserService;
 import space.androma.auction.trades.entity.User;
 
+import java.security.Principal;
 import java.util.List;
 
 
@@ -31,10 +34,18 @@ public class UserService implements IUserService {
         return userDtos;
     }
 
+    @Override
     public UserDto getUserByEmail(String email) {
         //TODO что будет если null?
         log.info("srv-getUserByEmail called");
         return UserMapper.mapUserDto(repository.findByEmail(email).orElse(null));
+    }
+
+    @Override
+    public UserDto getUserByUsername(String username){
+        //TODO что будет если null?
+        log.info("srv-getUserByUserName called");
+        return UserMapper.mapUserDto(repository.findByUsername(username).orElse(null));
     }
 
     @Override
@@ -52,6 +63,33 @@ public class UserService implements IUserService {
         User newUser = repository.insert(user);
         return newUser.getId();
 
+    }
+
+    @Override
+    public String newUserFromSocial(Principal principal) {
+
+        try {  //TODO RECODE IT!!!
+            OAuth2AuthenticationToken authenticationToken = (OAuth2AuthenticationToken) principal;
+            OAuth2AuthenticatedPrincipal authenticatedPrincipal = authenticationToken.getPrincipal();
+
+            String email = authenticatedPrincipal.getAttribute("email");
+            User user = repository.findByEmail(email).orElse(null);
+            if (user != null) return user.getUsername();
+            String username = authenticatedPrincipal.getAttribute("name");
+
+            this.addUser(UserDto.builder()
+                    .name(username)
+                    .email(email)
+                    .password(principal.getName())
+                    .build());
+
+            return username;
+        }
+        catch (Exception ClassCastException) {
+            //TODO
+            String tmp = principal.getName();
+            return tmp;
+        }
     }
 
     @Override

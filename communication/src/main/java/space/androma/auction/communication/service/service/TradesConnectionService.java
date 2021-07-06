@@ -2,15 +2,23 @@ package space.androma.auction.communication.service.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import space.androma.auction.communication.api.services.ITradesConnectionService;
 
+@PropertySource("classpath:application.properties")
 @Service
 public class TradesConnectionService implements ITradesConnectionService {
 
-    //TODO - разробраться откуда будет это имя? Из контейнеров?
-    public static final String TRD_SERVER_URL = "http://trades-service:8080/ext";
+
+    //public static final String TRD_SERVER_URL = "";
+    //public static final String TRD_SERVER_URL = "http://localhost:8080/ext";
+
+    @Value("${space.androma.auction.trades.uri}")
+    private String tradesUri;
+
 
     @Autowired
     //@LoadBalanced
@@ -18,7 +26,7 @@ public class TradesConnectionService implements ITradesConnectionService {
 
     @Override
     public boolean UserPermitCommunicate(String lotId, String userId) {
-        String url = TRD_SERVER_URL+
+        String url = tradesUri+
                 "/msg/"+lotId+"/"+userId;
          return  restTemplate.getForObject(url,Boolean.class ,lotId,  userId);
 
@@ -28,7 +36,7 @@ public class TradesConnectionService implements ITradesConnectionService {
     public boolean ping()
     {
        try {
-            return restTemplate.getForObject(TRD_SERVER_URL, Boolean.class);
+            return restTemplate.getForObject(tradesUri, Boolean.class);
         }
         catch (Exception ConnectException) {
             return false;

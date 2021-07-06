@@ -1,16 +1,18 @@
 package space.androma.auction.trades.api.service;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import space.androma.auction.trades.api.dto.UserDto;
+
+import java.security.Principal;
+import java.util.List;
 
 @Service
 public interface IUserService {
 
     UserDto getUserById(String id);
+
+    UserDto getUserByUsername(String username);
 
     UserDto getUserByEmail(String email);
 
@@ -22,5 +24,7 @@ public interface IUserService {
     void deleteUser(String id);
 
     List<UserDto> getUsers();
+
+    String newUserFromSocial(Principal principal);
 
 }

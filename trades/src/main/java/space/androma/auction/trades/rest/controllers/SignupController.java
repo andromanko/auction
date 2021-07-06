@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import space.androma.auction.trades.api.dao.IUserRepo;
 import space.androma.auction.trades.api.dto.UserDto;
-import space.androma.auction.trades.entity.User;
 import space.androma.auction.trades.entity.Role;
+import space.androma.auction.trades.entity.User;
 
 import java.util.Collections;
 

@@ -35,23 +35,6 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-/*    @PostMapping(value = "/add")
-    public String addUser( @RequestBody  UserDto userDto) {
-        return userService.addUser(userDto);
-    }*/
-
-/*    @GetMapping("/signup")
-    public String registration()
-    {
-        return "signup";
-    }
-
-    @PostMapping("/signup")
-    public String createUser( @RequestBody  UserDto userDto)
-    {
-        userService.addUser(userDto);
-        return "redirect:/login";
-    }*/
 
 
     @PutMapping(value = "/upd")
@@ -61,4 +44,14 @@ public class UserController {
     }
 
     //TODO PAGEABLE? GET ALL USERS
+
+/*    //----------------------------working with Principal
+    private Object getPrincipal(Map<String, Object> map) {
+        for (String key : PRINCIPAL_KEYS) {
+            if (map.containsKey(key)) {
+                return map.get(key);
+            }
+        }
+        return "unknown";
+    }*/
 }

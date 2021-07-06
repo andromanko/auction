@@ -13,13 +13,16 @@ public class UserMapper {
     //UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     public User mapUser(UserDto source) {
-        return User.builder().id(source.getId()).username(source.getName()).email(source.getEmail())
-                .build();
+        return source!=null ?  User.builder().id(source.getId()).username(source.getName()).email(source.getEmail())
+                .build(): null;
     }
 
     public UserDto mapUserDto(User source) {
-        return UserDto.builder().id(source.getId()).name(source.getUsername()).email(source.getEmail())
-                .build();
+        return source!=null ?  UserDto.builder()
+                .id(source.getId())
+                .name(source.getUsername())
+                .email(source.getEmail())
+                .build() : null;
     }
 
     public List<User> mapUsers(List<UserDto> source) {
