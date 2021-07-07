@@ -1,7 +1,6 @@
 package space.androma.auction.communication.service.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
@@ -12,13 +11,8 @@ import space.androma.auction.communication.api.services.ITradesConnectionService
 @Service
 public class TradesConnectionService implements ITradesConnectionService {
 
-
-    //public static final String TRD_SERVER_URL = "";
-    //public static final String TRD_SERVER_URL = "http://localhost:8080/ext";
-
     @Value("${space.androma.auction.trades.uri}")
     private String tradesUri;
-
 
     @Autowired
     //@LoadBalanced

@@ -12,7 +12,4 @@ public interface IMsgDetailsRepo extends MongoRepository<MsgDetails, String> {
     @Query("{'lotId' : ?0}")
     Optional<MsgDetails> findByLotId(String lotId);
 
-/*    //TODO ТЕСТИТЬ! ФИКСИТЬ! @query переписать
-    @Query("{'sellerId: ?0}")
-    Optional<MsgDetails> findByUserId(String userId);*/
 }

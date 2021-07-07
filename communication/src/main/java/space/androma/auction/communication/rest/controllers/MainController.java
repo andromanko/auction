@@ -23,10 +23,8 @@ public class MainController {
     @GetMapping()
     public String main() {
         log.info("CommunicationService working/ 8082/ mapping! ");
-        //UserDto userDto = UserDto.builder().name("name3").email("blange@mail.ru").build();
-        //userService.addUser(userDto);
 
-        return "Main Page MsgController started. Connect with Trades:"+ tradesConnectionService.ping(); //userService.getUserByEmail("blange@mail.ru");//principal.getName());
+        return "Main Page MsgController started. Connect with Trades:" + tradesConnectionService.ping();
     }
 
     @GetMapping("/s")

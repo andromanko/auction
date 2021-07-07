@@ -30,7 +30,6 @@ public class PaymentMapper {
                 .build();
     }
 
-
     public List<Payment> mapPayments(List<PaymentDto> source) {
         return source.stream().map(PaymentMapper::mapPayment).collect(Collectors.toList());
     }

@@ -4,10 +4,10 @@ public enum TokenData {
     TOKEN("token"),
     ID("id"),
     LOGIN("username"),
-    EMAIL("email");
-    //GROUP("group"),
-    //CREATE_DATE("token_create_date"),
-    //EXPIRATION_DATE("token_expiration_date");
+    EMAIL("email"),
+    GROUP("group"),
+    CREATE_DATE("token_create_date"),
+    EXPIRATION_DATE("token_expiration_date");
 
     private final String value;
 

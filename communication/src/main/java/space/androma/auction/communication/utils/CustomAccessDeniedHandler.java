@@ -1,5 +1,6 @@
 package space.androma.auction.communication.utils;
 
+/*
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
@@ -29,3 +30,4 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 		response.sendRedirect(request.getContextPath() + "/403");
 	}
 }
+*/

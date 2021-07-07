@@ -2,6 +2,7 @@ package space.androma.auction.trades.rest.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
@@ -21,9 +22,9 @@ public class UserController {
     IUserService userService;
 
     @GetMapping()
-    public List<UserDto> getAllUsers(Principal principal)
+    public List<UserDto> getAllUsers(Principal principal, Authentication authentication)
     {
-        return userService.getUsers();
+          return userService.getUsers();
     }
 
     //TODO подумать что делать с ЮзерИнфо. ЧТо вытягиваем из principal?

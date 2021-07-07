@@ -17,8 +17,6 @@ public interface IMessageService {
     List<MessageDto> getAllMessages();
 
     MessageDto getMsgById(String id);
-    //послать e-mail если не прочитана
-    boolean sendEmailIfNotReadedForAnHour (Long msgId);
 
     boolean makeMessageReaded (String id);
 }

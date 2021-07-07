@@ -34,7 +34,7 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Bean
     public MongoClient mongoClient() {
-        return MongoClients.create("mongodb://mongodb-srv:27017");
+        return MongoClients.create(mongoDBUri);
     }
 
     @Bean

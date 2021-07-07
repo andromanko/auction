@@ -25,6 +25,7 @@ public class SignupController {
     @GetMapping("/signup")
     public String registration()
     {
+
         return "signup";
     }
 

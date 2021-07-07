@@ -1,4 +1,5 @@
 package space.androma.auction.communication.utils;
+/*
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,4 +23,4 @@ public class CustomUserDetailsService implements UserDetailsService
 		return new MyUserPrincipal(user);
 	}
 
-}
+}*/

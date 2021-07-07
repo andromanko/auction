@@ -7,10 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
-//import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import space.androma.auction.security.TokenData;
@@ -21,9 +21,7 @@ import space.androma.auction.trades.api.service.IUserService;
 import space.androma.auction.trades.entity.User;
 
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @PropertySource("classpath:application.properties")
 @Slf4j
@@ -121,10 +119,11 @@ private String key;
     @Override
     public String login(final String username, final String password) {
         User user = repository.findByUsername(username).orElse(null);
+        //дальше проверяется password! и если норм - выдается токен
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {
             return getToken(user);
         }
-        throw new RuntimeException("Error");
+        throw new RuntimeException("Error, не тот username/password");
     }
 
     private String getToken(final User user) {
@@ -132,15 +131,17 @@ private String key;
         tokenData.put(TokenData.ID.getValue(), user.getId());
         tokenData.put(TokenData.LOGIN.getValue(), user.getUsername());
         tokenData.put(TokenData.EMAIL.getValue(), user.getEmail());
-        //tokenData.put(TokenData.GROUP.getValue(), user.getGroup());
-        //tokenData.put(TokenData.CREATE_DATE.getValue(), new Date().getTime());
-        //Calendar calendar = Calendar.getInstance();
-        //calendar.add(Calendar.DATE, tokenDaysAlive);
-        //tokenData.put(TokenData.EXPIRATION_DATE.getValue(), calendar.getTime());
+        tokenData.put(TokenData.GROUP.getValue(), new SimpleGrantedAuthority("user"));//user.getGroup());
+        tokenData.put(TokenData.CREATE_DATE.getValue(), new Date().getTime());
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, 1); //tokenDaysAlive);
+        tokenData.put(TokenData.EXPIRATION_DATE.getValue(), calendar.getTime());
         JwtBuilder jwtBuilder = Jwts.builder();
-        //jwtBuilder.setExpiration(calendar.getTime());
+        jwtBuilder.setExpiration(calendar.getTime());
         jwtBuilder.setClaims(tokenData);
-        return jwtBuilder.signWith(SignatureAlgorithm.HS512, key).compact();
+        String jwt = jwtBuilder.signWith(SignatureAlgorithm.HS512,key).compact();
+
+         return jwt;
     }
 
 }

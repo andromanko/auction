@@ -4,7 +4,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import space.androma.auction.payment.entity.Payment;
 
-
 import java.util.List;
 import java.util.Optional;
 

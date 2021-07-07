@@ -10,8 +10,6 @@ import java.util.stream.Collectors;
 @UtilityClass
 public class MessageMapper {
 
-    //UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
-
     public Message mapMessage (MessageDto source) {
         return Message.builder()
                 .id(source.getId())

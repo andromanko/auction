@@ -2,13 +2,13 @@ package space.androma.auction.trades.rest.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import space.androma.auction.security.Result;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 import space.androma.auction.trades.api.service.IUserService;
 
 import java.security.Principal;
-
-import static space.androma.auction.security.Result.run;
 
 @Slf4j
 @RestController
@@ -31,13 +31,12 @@ public class MainController {
         }
         return "Main Page TRADES. User: " + username;
     }
-//---------forSequr
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Result<String> login(@RequestParam(value = "login") final String login,
-                                @RequestParam(value = "password") final String password) {
-        return run(() -> userService.login(login, password));
+///эксперимент для определения возможности "превращения trades в шлюз для работы со всеми.
+    //тогда 8081 и 8082 нужно будет закрыть от внешнего мира =)
+    @GetMapping("/msg")
+    public RedirectView msg(Principal principal) {
+        return new RedirectView("http://communication-service:8082/msg");
     }
-
 
 }
 
