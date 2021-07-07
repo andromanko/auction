@@ -45,13 +45,4 @@ public class UserController {
 
     //TODO PAGEABLE? GET ALL USERS
 
-/*    //----------------------------working with Principal
-    private Object getPrincipal(Map<String, Object> map) {
-        for (String key : PRINCIPAL_KEYS) {
-            if (map.containsKey(key)) {
-                return map.get(key);
-            }
-        }
-        return "unknown";
-    }*/
 }

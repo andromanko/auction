@@ -1,4 +1,4 @@
-package space.androma.auction.trades.rest.config;
+package space.androma.auction.communication.rest.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;

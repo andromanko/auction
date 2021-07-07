@@ -27,4 +27,6 @@ public interface IUserService {
 
     String newUserFromSocial(Principal principal);
 
+    String login(final String username, final String password);
+
 }

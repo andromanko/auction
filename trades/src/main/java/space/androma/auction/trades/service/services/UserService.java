@@ -1,12 +1,19 @@
 package space.androma.auction.trades.service.services;
 
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
+//import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import space.androma.auction.security.TokenData;
 import space.androma.auction.trades.api.dao.IUserRepo;
 import space.androma.auction.trades.api.dto.UserDto;
 import space.androma.auction.trades.api.mappers.UserMapper;
@@ -14,9 +21,11 @@ import space.androma.auction.trades.api.service.IUserService;
 import space.androma.auction.trades.entity.User;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-
+@PropertySource("classpath:application.properties")
 @Slf4j
 @Service
 public class UserService implements IUserService {
@@ -86,9 +95,7 @@ public class UserService implements IUserService {
             return username;
         }
         catch (Exception ClassCastException) {
-            //TODO
-            String tmp = principal.getName();
-            return tmp;
+            return  principal.getName();
         }
     }
 
@@ -107,4 +114,33 @@ public class UserService implements IUserService {
     public void deleteUser(String id) {
 //TODO delUser MARK AS DELETED!!!
     }
+/// for other services---------------------------
+@Value("${space.androma.auction.key}")
+private String key;
+
+    @Override
+    public String login(final String username, final String password) {
+        User user = repository.findByUsername(username).orElse(null);
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            return getToken(user);
+        }
+        throw new RuntimeException("Error");
+    }
+
+    private String getToken(final User user) {
+        final Map<String, Object> tokenData = new HashMap<>();
+        tokenData.put(TokenData.ID.getValue(), user.getId());
+        tokenData.put(TokenData.LOGIN.getValue(), user.getUsername());
+        tokenData.put(TokenData.EMAIL.getValue(), user.getEmail());
+        //tokenData.put(TokenData.GROUP.getValue(), user.getGroup());
+        //tokenData.put(TokenData.CREATE_DATE.getValue(), new Date().getTime());
+        //Calendar calendar = Calendar.getInstance();
+        //calendar.add(Calendar.DATE, tokenDaysAlive);
+        //tokenData.put(TokenData.EXPIRATION_DATE.getValue(), calendar.getTime());
+        JwtBuilder jwtBuilder = Jwts.builder();
+        //jwtBuilder.setExpiration(calendar.getTime());
+        jwtBuilder.setClaims(tokenData);
+        return jwtBuilder.signWith(SignatureAlgorithm.HS512, key).compact();
+    }
+
 }

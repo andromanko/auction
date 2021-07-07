@@ -115,38 +115,29 @@
             <version>${slf4j.version}</version>
         </dependency>
 
-        <!--was 5.0.4.RELEASE-->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
             <version>5.2.1.RELEASE</version>
         </dependency>
 
-        <!--was 5.0.4.RELEASE-->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
             <version>5.2.1.RELEASE</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web
-        it was 5.2.8.RELEASE-->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
             <version>5.2.1.RELEASE</version>
         </dependency>
-
-
-        <!-- https://mvnrepository.com/artifact/com.google.auth/google-auth-library-oauth2-http -->
-        <dependency>
+       <dependency>
             <groupId>com.google.auth</groupId>
             <artifactId>google-auth-library-oauth2-http</artifactId>
             <version>0.26.0</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2 -->
-        <dependency>
+       <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
             <version>2.2.1.RELEASE</version>
@@ -161,5 +152,20 @@
             <artifactId>spring-security-oauth2-jose</artifactId>
             <version>5.2.1.RELEASE</version>
         </dependency>
+
+        <!--FOR AUTH MSERviCS https://mvnrepository.com/artifact/org.springframework.security/spring-security-jwt -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-jwt</artifactId>
+            <version>1.0.9.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+
+        </dependency>
+
+
     </dependencies>
 </project>

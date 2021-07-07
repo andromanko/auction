@@ -7,8 +7,8 @@ public class SpringWebInitializer extends AbstractAnnotationConfigDispatcherServ
 
     @Override
     protected Class[] getServletConfigClasses() {
-        return null;//new Class[]{MvcConfig.class};//вопрос по конфигу может возникнуть
-    } //было AppConfig
+        return null;
+    }
 
     @Override
     protected String[] getServletMappings() {
@@ -19,6 +19,4 @@ public class SpringWebInitializer extends AbstractAnnotationConfigDispatcherServ
     protected Class[] getRootConfigClasses() {
         return new Class[] { AppConfig.class };
     }
-    //return new Class[]{};
-   // хрень
 }
