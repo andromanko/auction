@@ -6,6 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import space.androma.auction.communication.api.services.ITradesConnectionService;
+import space.androma.auction.communication.entity.MsgDetails;
 
 @PropertySource("classpath:application.properties")
 @Service
@@ -24,6 +25,10 @@ public class TradesConnectionService implements ITradesConnectionService {
                 "/msg/"+lotId+"/"+userId;
          return  restTemplate.getForObject(url,Boolean.class ,lotId,  userId);
 
+    }
+    @Override
+    public MsgDetails getLotDetails(String lotId) {
+        return restTemplate.getForObject(tradesUri+"/lot/"+lotId, MsgDetails.class ,lotId);
     }
 
     @Override

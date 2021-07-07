@@ -12,6 +12,7 @@ import space.androma.auction.trades.api.mappers.LotMapper;
 import space.androma.auction.trades.api.service.ILotService;
 import space.androma.auction.trades.entity.Lot;
 import space.androma.auction.trades.entity.User;
+import space.androma.auction.trades.rest.otherData.MsgDetails;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -124,18 +125,35 @@ public class LotService implements ILotService {
 
         Lot lot = lotRepo.findById(lotId).orElse(null);
         User user = userRepo.findById(userId).orElse(null);
-        if ((lot != null)&(user != null))  {
+        if ((lot != null)&(user != null)) {
             if (lot.getDateTimeEnd().isAfter(LocalDateTime.now())) {  //если срок еще не истек
-                if ((lot.getPriceCurrent() < proposedPrice)& (lot.getPriceStart()<proposedPrice)) {
-                        lot.setPriceCurrent(proposedPrice);
-                        lot.setWinnerId(user.getId());
-                        lotRepo.save(lot);
-                        return true;
-                    }
+                if ((lot.getPriceCurrent() < proposedPrice) & (lot.getPriceStart() < proposedPrice)) {
+                    lot.setPriceCurrent(proposedPrice);
+                    lot.setWinnerId(user.getId());
+                    lotRepo.save(lot);
+                    return true;
                 }
             }
+        }
         return false;
     }
 
-
+    public MsgDetails getLotInfoById(String lotId) {
+        Lot lot = lotRepo.findById(lotId).orElse(null);
+        if (lot != null) {
+            User seller = userRepo.findById(lot.getSellerId()).orElse(null);
+            User buyer = userRepo.findById(lot.getWinnerId()).orElse(null);
+            if ((buyer != null) & (seller != null)) {
+                return MsgDetails.builder()
+                        .lotId(lotId)
+                        .buyerId(buyer.getId())
+                        .buyerEmail((buyer.getEmail()))
+                        .sellerId(seller.getId())
+                        .sellerEmail(seller.getEmail())
+                        .build();
+            }
+        }
+        log.info("not correct info from Msg Service LotId: " + lotId);
+        return null;
+    }
 }

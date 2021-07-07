@@ -39,13 +39,14 @@ public class MessageService implements IMessageService {
             //спрашиваем "лот сыграл? юзеру писать можно?" //TODO - НЕКРАСИВО! повод для оптимизации!!!
             if (tradesConnectionService.UserPermitCommunicate(messageDto.getLotId(), messageDto.getUserId())) {
                 //запросить credentials у trades
-                msgDetails = MsgDetails.builder()
+                msgDetails = tradesConnectionService.getLotDetails(messageDto.getLotId());
+/*                msgDetails = MsgDetails.builder()
                 .lotId(messageDto.getLotId())
                 .sellerId(messageDto.getUserId())
                 .sellerEmail("blange@mail.ru")  //TODO узнать lot details у trades!!!
                 .buyerId("60e024e07ae51622b18a272c")
                 .buyerEmail("blange@mail.ru")
-                        .build();
+                        .build();*/
                 msgPermitRepo.save(msgDetails);
             } else {
                 return false;//если ни по одному из условий не найдено

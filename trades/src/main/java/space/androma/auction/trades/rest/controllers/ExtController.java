@@ -3,10 +3,14 @@ package space.androma.auction.trades.rest.controllers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import space.androma.auction.security.Result;
 import space.androma.auction.trades.api.service.ILotService;
 import space.androma.auction.trades.api.service.IUserService;
+import space.androma.auction.trades.rest.otherData.MsgDetails;
 
 import static space.androma.auction.security.Result.run;
 
@@ -22,6 +26,13 @@ public class ExtController {
     @Autowired
     IUserService userService;
 
+    //TODO TODO TODO MsgDetails must be from other package!!!
+    @GetMapping(value = "/lot/{lotId}", produces = MediaType.APPLICATION_JSON_VALUE )
+    public MsgDetails userPermitCommunicate(@PathVariable String lotId)
+    {
+        return lotService.getLotInfoById(lotId);
+    }
+//
     @GetMapping(value = "/msg/{lotId}/{userId}", produces = MediaType.APPLICATION_JSON_VALUE )
     public boolean userPermitCommunicate(@PathVariable String lotId, @PathVariable String userId)
     {
@@ -33,6 +44,8 @@ public class ExtController {
     {
         return lotService.getUserPayForLot(lotId, userId);
     }
+
+
 //---only for test-connect =)
     @GetMapping()
     public boolean ping() {

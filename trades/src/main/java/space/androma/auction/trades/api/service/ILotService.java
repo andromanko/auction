@@ -3,6 +3,7 @@ package space.androma.auction.trades.api.service;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import space.androma.auction.trades.api.dto.LotDto;
+import space.androma.auction.trades.rest.otherData.MsgDetails;
 
 import java.util.List;
 
@@ -24,5 +25,8 @@ public interface ILotService {
     boolean getUserPermitCommunicate(String lotId, String userId);
 
     boolean getUserPayForLot(String lotId, String userId);
+
+    //todo external!!!
+    MsgDetails getLotInfoById(String lotId);
 
 }
