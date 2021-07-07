@@ -18,5 +18,6 @@ public class MessageDto {
     private String text;
     private LocalDateTime time;
     private boolean readed;
+    private boolean notifySent;
 }
 

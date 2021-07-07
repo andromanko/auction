@@ -10,6 +10,7 @@ import space.androma.auction.communication.api.utils.IEmailSender;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+
 @Service
 public class EmailSender implements IEmailSender {
 
@@ -43,6 +44,7 @@ public class EmailSender implements IEmailSender {
             configureMimeMessageHelper(helper, ADMIN_EMAIL_ADDRESS, email, text,
                     "This is automatic-sent letter from auction/communication system by Roma");
             mailSender.send(message);
+
         }
 
         private void configureMimeMessageHelper(MimeMessageHelper helper, String mailFrom, String mailTo, String mailText,

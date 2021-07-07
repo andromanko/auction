@@ -17,6 +17,7 @@ public class MessageMapper {
                 .lotId(source.getLotId())
                 .text(source.getText())
                 .time(source.getTime())
+                .readed(source.isReaded())
                 .build();
     }
 
@@ -27,6 +28,8 @@ public class MessageMapper {
                 .lotId(source.getLotId())
                 .time(source.getTime())
                 .text(source.getText())
+                .readed(source.isReaded())
+                .notifySent(source.isNotifySent())
                 .build();
     }
 

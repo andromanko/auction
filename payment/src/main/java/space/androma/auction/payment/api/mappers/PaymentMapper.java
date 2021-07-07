@@ -22,12 +22,12 @@ public class PaymentMapper {
     }
 
     public PaymentDto mapPaymentDto(Payment source) {
-        return PaymentDto.builder()
+        return source!=null ? PaymentDto.builder()
                 .id(source.getId())
                 .userId(source.getUserId())
                 .lotId(source.getLotId())
                 .sum(source.getSum())
-                .build();
+                .build(): null;
     }
 
     public List<Payment> mapPayments(List<PaymentDto> source) {

@@ -41,7 +41,7 @@ public class LotController {
     @PostMapping(value = "/add")
     public boolean addLot( @RequestBody LotDto lot, Principal principal) {
 
-        return lotService.addLot(lot,"user1");//TODO  principal.getName());
+        return lotService.addLot(lot, principal.getName());//TODO  principal.getName());
     }
 
     @PostMapping(value = "/upd")

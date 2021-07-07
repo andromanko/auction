@@ -31,7 +31,7 @@ public class ExtController {
     @GetMapping(value = "/pay/{lotId}/{userId}", produces = MediaType.APPLICATION_JSON_VALUE )
     public boolean userPermitToPayForLot(@PathVariable String lotId, @PathVariable String userId)
     {
-        return lotService.getUserPermitPayForLot(lotId, userId);
+        return lotService.getUserPayForLot(lotId, userId);
     }
 //---only for test-connect =)
     @GetMapping()
@@ -50,7 +50,7 @@ public class ExtController {
     @GetMapping(value = "/login/{username}")
     public Result<String> login (@PathVariable String username){//, @RequestBody String password) {
         //String login = "user1";
-        String password=username;
+        String password=username; //TODO
         return run(() -> userService.login(username, password));
     }
 

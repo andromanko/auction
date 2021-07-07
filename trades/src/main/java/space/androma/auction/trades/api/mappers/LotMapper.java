@@ -32,6 +32,8 @@ public class LotMapper {
                 .priceStart(source.getPriceStart())
                 .priceCurrent(source.getPriceCurrent())
                 .dateTimeEnd(source.getDateTimeEnd())
+                .winner(source.getWinnerId())
+                .paymentDone(source.isPaymentDone())
                 .build();
     }
 

@@ -23,6 +23,6 @@ public interface ILotService {
 
     boolean getUserPermitCommunicate(String lotId, String userId);
 
-    boolean getUserPermitPayForLot(String lotId, String userId);
+    boolean getUserPayForLot(String lotId, String userId);
 
 }

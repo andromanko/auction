@@ -42,9 +42,9 @@ public class MessageService implements IMessageService {
                 msgDetails = MsgDetails.builder()
                 .lotId(messageDto.getLotId())
                 .sellerId(messageDto.getUserId())
-                .sellerEmail("sellerEMailMustBeHere")
-                .buyerId("BuyerIdMustBeHere")
-                .buyerEmail("BuyerEMailMustBeHere")
+                .sellerEmail("blange@mail.ru")  //TODO узнать lot details у trades!!!
+                .buyerId("60e024e07ae51622b18a272c")
+                .buyerEmail("blange@mail.ru")
                         .build();
                 msgPermitRepo.save(msgDetails);
             } else {
@@ -63,25 +63,16 @@ public class MessageService implements IMessageService {
         return  MessageMapper.mapMessageDtos(repo.findAll());
     }
 
-    //
     @Override
     public MessageDto getMsgById(String id) {
         return MessageMapper.mapMessageDto(repo.findById(id).orElse(null));
     }
 
-    //+
     @Override
     public List<MessageDto> getLotMessages(String lotId) {
         return  MessageMapper.mapMessageDtos(repo.findByLotId(lotId));
     }
 
-    //TODO сделать aspect на час и отправку мыла
-    @Override
-    public boolean sendEmailIfNotReadedForAnHour(Long msgId) {
-        return false;
-    }
-
-    //+
     @Override
     public boolean makeMessageReaded(String id) {
         Message msg = repo.findById(id).orElse(null);

@@ -3,6 +3,7 @@ package space.androma.auction.trades.service.services;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import space.androma.auction.trades.api.dao.ILotRepo;
 import space.androma.auction.trades.api.dao.IUserRepo;
@@ -43,20 +44,31 @@ public class LotService implements ILotService {
         }
         return false;
     }
-//+
+
+    @Transactional
     @Override
-    public boolean getUserPermitPayForLot(String lotId, String userId) {
+    public boolean getUserPayForLot(String lotId, String userId) {
     //TODO вынести дублированый код
         Lot lot = lotRepo.findById(lotId).orElse(null);
         if (lot !=null) {
-            //TODO возможен баг в условии
-            if (LocalDateTime.now().isAfter( lot.getDateTimeEnd())) {
-                if (lot.getWinnerId().equals(userId)) {
-                    //TODO здесь может быть еще проверка суммы
-                    //но в нашей симуляции делаем якобы все ок
-                    lot.setPaymentDone(true);
-                    lotRepo.save(lot);
-                    return true;
+            if (!lot.isPaymentDone()) {
+                //TODO возможен баг в условии
+                if (LocalDateTime.now().isAfter(lot.getDateTimeEnd())) {
+                    if (lot.getWinnerId().equals(userId)) {
+                        //предполагаем, что ющерИД у нас уже есть если прошли условие
+                        User winner = userRepo.findById(userId).orElse(null);
+                        if (winner.getBalance() < lot.getPriceCurrent()) {
+                            log.info("user balance is too low =(");
+                            return false;
+                        }
+                        winner.setBalance(winner.getBalance() - lot.getPriceCurrent());
+                        userRepo.save(winner);
+                        //TODO здесь может быть еще проверка суммы
+                        //но в нашей симуляции делаем якобы все ок
+                        lot.setPaymentDone(true);
+                        lotRepo.save(lot);
+                        return true;
+                    }
                 }
             }
         }
@@ -73,11 +85,20 @@ public class LotService implements ILotService {
     public boolean addLot(LotDto lotDto,String username) {
         //TODO CHECK if Lot(name) exists?
         Lot newLot = LotMapper.mapLot(lotDto);
-        User user = userRepo.findByUsername(username).orElse(null);
-        if (user != null) {
-            newLot.setSellerId(user.getId());
-            //если дата не задана - то 1 месяц на продажу =)
-            if (lotDto.getDateTimeEnd() == null) {
+
+        //check if Lot with this name exists
+
+        if (lotRepo.findByName(lotDto.getName()).isPresent()) {
+            log.info("Lot Add Service. Lot with this name exists in DB. Lotname: "+lotDto.getName());
+            return false;
+        }
+        User seller = userRepo.findByUsername(username).orElse(null);
+        if (seller==null) {
+            log.info("Lot Add Service. User does not exist in DB. Username: "+username);
+            return false;
+        }
+        newLot.setSellerId(seller.getId()); //Google?! TODO
+         if (lotDto.getDateTimeEnd() == null) {
                 newLot.setDateTimeEnd(LocalDateTime.now().plusMonths(1));
             }
             if (lotDto.getPriceCurrent() == null) {
@@ -85,18 +106,17 @@ public class LotService implements ILotService {
             }
             lotRepo.save(newLot);
             return true;
-        }
-        return false;
     }
 
+    //TODO
     @Override
     public void updateLot(String id, LotDto lotDto, MultipartFile file) {
-//TODO
     }
 
+    //TODO
     @Override
     public void deleteLot(String id) {
-//TODO
+
     }
 
     @Override
@@ -106,7 +126,7 @@ public class LotService implements ILotService {
         User user = userRepo.findById(userId).orElse(null);
         if ((lot != null)&(user != null))  {
             if (lot.getDateTimeEnd().isAfter(LocalDateTime.now())) {  //если срок еще не истек
-                if (lot.getPriceCurrent() < proposedPrice) {
+                if ((lot.getPriceCurrent() < proposedPrice)& (lot.getPriceStart()<proposedPrice)) {
                         lot.setPriceCurrent(proposedPrice);
                         lot.setWinnerId(user.getId());
                         lotRepo.save(lot);
