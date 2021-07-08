@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface IUserRepo extends MongoRepository<User, String> {
 
+    //TODO Dao vs Repo
+    //DDD
     //пока не надо
     @Query("{'email' : ?0}")
     Optional<User> findByEmail(String email);

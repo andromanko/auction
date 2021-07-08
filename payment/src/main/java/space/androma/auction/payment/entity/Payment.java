@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @Document(collection = "pay")
 public class Payment {
-
+//TODO equals pattern decorator - research
     @Id
     private String id;
     @NotNull

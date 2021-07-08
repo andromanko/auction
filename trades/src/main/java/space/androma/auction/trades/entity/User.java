@@ -36,6 +36,7 @@ public class User implements UserDetails {
     private Date birth;
     private Long balance;
 
+    //TODO SET!!!!!
     //лоты в которых участвовал
     private List<Lot> lotsParticipate;
 
@@ -46,9 +47,7 @@ public class User implements UserDetails {
     private String googleName;
     private String googleUsername;
 
-/*    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING)*/
+
     private Set<Role> roles;
 
     @Override

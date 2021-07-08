@@ -139,7 +139,7 @@ public class LotService implements ILotService {
     }
 
     public MsgDetails getLotInfoById(String lotId) {
-        Lot lot = lotRepo.findById(lotId).orElse(null);
+        Lot lot = lotRepo.findById(lotId)
         if (lot != null) {
             User seller = userRepo.findById(lot.getSellerId()).orElse(null);
             User buyer = userRepo.findById(lot.getWinnerId()).orElse(null);

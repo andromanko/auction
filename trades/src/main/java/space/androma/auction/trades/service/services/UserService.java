@@ -29,7 +29,7 @@ import java.util.*;
 public class UserService implements IUserService {
 
     @Autowired
-    IUserRepo repository;
+    private IUserRepo repository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -61,12 +61,7 @@ public class UserService implements IUserService {
         User user = UserMapper.mapUser(userDto);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 //TODO validate Email ?
-        /*User userByEmail = repository.findByEmail(userDto.getEmail()).orElse(null);
-        if (userByEmail != null) {
-            log.error("Failed to registerUser. The Login or Email already exists");
-            // TODO переделать
-            return "USER with this e-mail EXIST";
-        }*/
+
         User newUser = repository.insert(user);
         return newUser.getId();
 

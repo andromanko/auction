@@ -27,4 +27,7 @@ public class Lot {
     private String winnerId;
     private LocalDateTime dateTimeEnd;
     private boolean paymentDone;
+
+    // EQUALS
+
 }

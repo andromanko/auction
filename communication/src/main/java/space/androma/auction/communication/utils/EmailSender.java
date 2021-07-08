@@ -45,6 +45,8 @@ public class EmailSender implements IEmailSender {
                     "This is automatic-sent letter from auction/communication system by Roma");
             mailSender.send(message);
 
+            //TODO executor service!!!
+
         }
 
         private void configureMimeMessageHelper(MimeMessageHelper helper, String mailFrom, String mailTo, String mailText,

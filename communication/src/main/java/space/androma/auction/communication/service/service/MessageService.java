@@ -32,27 +32,23 @@ public class MessageService implements IMessageService {
 
     //TODO подумать, может не void?
     //неплохо было бы проверять, а есть ли вообще такой ЛОТ? Обращение к другому сервису?
+
+    //TODO Transactional Mongo research
     @Override
     public boolean addMsgForLot(MessageDto messageDto) {
         MsgDetails msgDetails = msgPermitRepo.findByLotId(messageDto.getLotId()).orElse(null);
         if (msgDetails == null) {
             //спрашиваем "лот сыграл? юзеру писать можно?" //TODO - НЕКРАСИВО! повод для оптимизации!!!
             if (tradesConnectionService.UserPermitCommunicate(messageDto.getLotId(), messageDto.getUserId())) {
-                //запросить credentials у trades
+
                 msgDetails = tradesConnectionService.getLotDetails(messageDto.getLotId());
-/*                msgDetails = MsgDetails.builder()
-                .lotId(messageDto.getLotId())
-                .sellerId(messageDto.getUserId())
-                .sellerEmail("blange@mail.ru")  //TODO узнать lot details у trades!!!
-                .buyerId("60e024e07ae51622b18a272c")
-                .buyerEmail("blange@mail.ru")
-                        .build();*/
+
                 msgPermitRepo.save(msgDetails);
             } else {
-                return false;//если ни по одному из условий не найдено
+                return false;
             }
         }
-        //если мы здесь - значит можно коммуницировать!
+
             messageDto.setTime(LocalDateTime.now());
             repo.save(MessageMapper.mapMessage(messageDto));
             return true;

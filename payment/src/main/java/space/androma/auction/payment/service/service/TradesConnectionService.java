@@ -9,11 +9,10 @@ import space.androma.auction.payment.api.services.ITradesConnectionService;
 @Service
 public class TradesConnectionService implements ITradesConnectionService {
 
-    @Value("${space.androma.auction.trades.uri}")
-    private String tradesUri;
-
     @Autowired
     protected RestTemplate restTemplate;
+    @Value("${space.androma.auction.trades.uri}")
+    private String tradesUri;
 
     @Override
     public boolean UserPermitPay(String lotId, String userId) {
